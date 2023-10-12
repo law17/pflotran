@@ -1,0 +1,35 @@
+def rate_equation(solute_concentration, rate_constant):
+    return rate_constant * (1 - solute_concentration)
+
+def runge_kutta_4th_order(solute_concentration, rate_constant, time_step, total_time):
+    num_steps = int(total_time / time_step)
+    t = 0.0
+    for i in range(num_steps):
+        k1 = rate_equation(solute_concentration, rate_constant)
+        k2 = rate_equation(solute_concentration + 0.5 * k1 * time_step, rate_constant)
+        k3 = rate_equation(solute_concentration + 0.5 * k2 * time_step, rate_constant)
+        k4 = rate_equation(solute_concentration + k3 * time_step, rate_constant)
+        
+        solute_concentration += (k1 + 2 * k2 + 2 * k3 + k4) * (time_step / 6.0)
+        t += time_step
+        
+        # Output the time and reaction rate at specific time steps (modify as needed)
+        if i % 10 == 0:
+            print(f'Time = {t:.2f} seconds')
+            print(f'Reaction Rate = {rate_equation(solute_concentration, rate_constant):.6f}')
+            print()
+
+if __name__ == "__main__":
+    rate_constant = 0.001  # Adjust as needed
+    initial_concentration = 0.0  # Initial concentration of solute
+    total_time = 3600.0  # Total simulation time (seconds)
+    time_step = 100.0  # Time step (seconds)
+    
+    solute_concentration = initial_concentration
+    runge_kutta_4th_order(solute_concentration, rate_constant, time_step, total_time)
+
+
+
+
+
+
